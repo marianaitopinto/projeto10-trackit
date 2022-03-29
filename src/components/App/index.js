@@ -7,10 +7,12 @@ import Today from "../Today";
 import Historic from "../Historic";
 import Header from "../Header";
 import Footer from "../Footer";
+import { GlobalStyle } from "../App/styles.js"
 
 export default function App() {
     return (
         <>
+            <GlobalStyle />
             <BrowserRouter>
                 <Header />
                 <Routes>
