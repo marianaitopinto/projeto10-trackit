@@ -29,7 +29,7 @@ export default function Register() {
             <input placeholder="   nome" type='email' onChange={(e) => setData({...data, name:e.target.value})} value={data.name} required></input>
             <input placeholder="   foto" type='url' onChange={(e) => setData({...data, image:e.target.value})} value={data.image} required></input>
             <button type="submit" onClick={createRegister}>Cadastrar</button>
-            <p>Já tem uma conta? Faça login!</p>
+            <p onClick={() => navigate("/")}>Já tem uma conta? Faça login!</p>
         </BodyCss>
         </>
     )
@@ -84,5 +84,9 @@ const BodyCss = styled.div`
         text-decoration-line: underline;
         margin-top: 10px;
         color: #52B6FF;
+        :hover{
+                cursor: pointer;
+                filter: brightness(0.9);
+        }
     }
 `

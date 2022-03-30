@@ -1,16 +1,32 @@
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function LoginPage() {
+    const [userData, setUserData] = useState({email: "", password: ""})
+    const navigate = useNavigate();
+    console.log(userData)
+
+    function Login() {
+        const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', userData);
+        promise.then((response) => {
+            const  dados  = response.data;
+            console.log(dados);
+            navigate("/today");
+        })
+        promise.catch(err => console.log(err.response));
+    }
+
     return (
         <>
             <BodyCss>
                 <img src={logo} alt="logo" />
-                <input placeholder="   email" type='text'></input>
-                <input placeholder="   senha" type='text'></input>
-                <button type="submit" onClick={() => alert("ok")}>Entrar</button>
-                <p>Não tem uma conta? Cadastre-se!</p>
+                <input placeholder="   email" type='text' onChange={(e) => setUserData({...userData, email:e.target.value})} value={userData.email} required></input>
+                <input placeholder="   senha" type='password' onChange={(e) => setUserData({...userData, password:e.target.value})} value={userData.password} required></input>
+                <button type="submit" onClick={Login}>Entrar</button>
+                <p onClick={() => navigate("/register")}>Não tem uma conta? Cadastre-se!</p>
             </BodyCss>
         </>
     )
@@ -65,5 +81,9 @@ const BodyCss = styled.div`
         text-decoration-line: underline;
         margin-top: 10px;
         color: #52B6FF;
+        :hover{
+                cursor: pointer;
+                filter: brightness(0.9);
+        }
     }
 `
