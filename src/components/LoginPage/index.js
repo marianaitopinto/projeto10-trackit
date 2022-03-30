@@ -5,14 +5,15 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function LoginPage() {
-    const [userData, setUserData] = useState({email: "", password: ""})
+    const [userData, setUserData] = useState({ email: "", password: "" })
     const navigate = useNavigate();
     console.log(userData)
 
-    function Login() {
+    function Login(e) {
+        e.preventDefault();
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', userData);
         promise.then((response) => {
-            const  dados  = response.data;
+            const dados = response.data;
             console.log(dados);
             navigate("/today");
         })
@@ -23,9 +24,11 @@ export default function LoginPage() {
         <>
             <BodyCss>
                 <img src={logo} alt="logo" />
-                <input placeholder="   email" type='text' onChange={(e) => setUserData({...userData, email:e.target.value})} value={userData.email} required></input>
-                <input placeholder="   senha" type='password' onChange={(e) => setUserData({...userData, password:e.target.value})} value={userData.password} required></input>
-                <button type="submit" onClick={Login}>Entrar</button>
+                <Form onSubmit={Login}>
+                    <input placeholder="   email" type='text' onChange={(e) => setUserData({ ...userData, email: e.target.value })} value={userData.email} required></input>
+                    <input placeholder="   senha" type='password' onChange={(e) => setUserData({ ...userData, password: e.target.value })} value={userData.password} required></input>
+                    <button type="submit">Entrar</button>
+                </Form>
                 <p onClick={() => navigate("/register")}>Não tem uma conta? Cadastre-se!</p>
             </BodyCss>
         </>
@@ -87,3 +90,8 @@ const BodyCss = styled.div`
         }
     }
 `
+
+const Form = styled.form`
+display:flex;
+flex-direction: column;
+justify-content: center`
