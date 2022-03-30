@@ -2,18 +2,16 @@ import styled from "styled-components";
 import logo from "../../assets/logo.png";
 import React from "react";
 
-export default function Register() {
+export default function LoginPage() {
     return (
         <>
-        <BodyCss>
-            <img src={logo} alt="logo" />
-            <input placeholder="   email" type='text'></input>
-            <input placeholder="   senha" type='text'></input>
-            <input placeholder="   nome" type='text'></input>
-            <input placeholder="   foto" type='url'></input>
-            <button type="submit" onClick={() => alert("ok")}>Cadastrar</button>
-            <p>Já tem uma conta? Faça login!</p>
-        </BodyCss>
+            <BodyCss>
+                <img src={logo} alt="logo" />
+                <input placeholder="   email" type='text'></input>
+                <input placeholder="   senha" type='text'></input>
+                <button type="submit" onClick={() => alert("ok")}>Entrar</button>
+                <p>Não tem uma conta? Cadastre-se!</p>
+            </BodyCss>
         </>
     )
 }

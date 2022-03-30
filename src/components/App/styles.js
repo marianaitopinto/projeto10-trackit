@@ -32,6 +32,11 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+    font-family: 'Lexend Deca';
+	font-style: normal;
+	font-weight: 400;
+    display: flex;
+    justify-content: center;
 }
 ol, ul {
 	list-style: none;
