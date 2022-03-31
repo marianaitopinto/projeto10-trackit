@@ -1,23 +1,28 @@
 import styled from "styled-components";
 import logo from "../../assets/logo.png";
-import React, { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Oval } from "react-loader-spinner";
+import UserContext from "../../context/UserContext";
 
 export default function LoginPage() {
     const [userData, setUserData] = useState({ email: "", password: "" })
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
+    const { photo, setPhoto, token, setToken } = useContext(UserContext);
     console.log(userData)
+    console.log(token);
+    console.log(photo);
+    console.log(loading);
 
     function Login(e) {
         e.preventDefault();
         setLoading(true);
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', userData);
         promise.then((response) => {
-            const dados = response.data;
-            console.log(dados);
+            setPhoto(response.data.image);
+            setToken(response.data.token);
             navigate("/today");
         })
         promise.catch(() => {
