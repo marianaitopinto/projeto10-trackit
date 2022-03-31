@@ -3,21 +3,27 @@ import logo from "../../assets/logo.png";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Oval } from "react-loader-spinner";
 
 export default function Register() {
     const [data, setData] = useState({ email: "", name: "", image: "", password: "" })
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     console.log(data)
 
     function createRegister(e) {
         e.preventDefault();
+        setLoading(true);
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/sign-up', data);
         promise.then((response) => {
             const dados = response.data;
             console.log(dados);
             navigate("/");
         })
-        promise.catch(err => console.log(err.response));
+        promise.catch(err => {
+            alert("Algo deu errado! Revise os dados.")
+            setLoading(false);
+        });
     }
 
 
@@ -26,13 +32,13 @@ export default function Register() {
             <BodyCss>
                 <img src={logo} alt="logo" />
                 <Form onSubmit={createRegister}>
-                    <input placeholder="   email" type='email' onChange={(e) => setData({ ...data, email: e.target.value })} value={data.email} required></input>
-                    <input placeholder="   senha" type='password' onChange={(e) => setData({ ...data, password: e.target.value })} value={data.password} required></input>
-                    <input placeholder="   nome" type='text' onChange={(e) => setData({ ...data, name: e.target.value })} value={data.name} required></input>
-                    <input placeholder="   foto" type='url' onChange={(e) => setData({ ...data, image: e.target.value })} value={data.image} required></input>
-                    <button type="submit">Cadastrar</button>
+                    <input placeholder="   email" type='email' disabled={loading} onChange={(e) => setData({ ...data, email: e.target.value })} value={data.email} required></input>
+                    <input placeholder="   senha" type='password' disabled={loading} onChange={(e) => setData({ ...data, password: e.target.value })} value={data.password} required></input>
+                    <input placeholder="   nome" type='text' disabled={loading} onChange={(e) => setData({ ...data, name: e.target.value })} value={data.name} required></input>
+                    <input placeholder="   foto" type='url' disabled={loading} onChange={(e) => setData({ ...data, image: e.target.value })} value={data.image} required></input>
+                    <button type="submit" disabled={loading}>{loading ?  <Oval color="#FFFFFF" height={30} width={30} /> : `Cadastrar`}</button>
                 </Form>
-                <p onClick={() => navigate("/")}>Já tem uma conta? Faça login!</p>
+                <p onClick={() => navigate("/") } disabled={loading}>Já tem uma conta? Faça login!</p>
             </BodyCss>
         </>
     )
@@ -76,7 +82,7 @@ const BodyCss = styled.div`
         font-size: 20.976px;
         line-height: 26px;
         text-align: center;
-        margin-top: 70px;
+        margin-top: 40px;
         color: #FFFFFF;
     }
 

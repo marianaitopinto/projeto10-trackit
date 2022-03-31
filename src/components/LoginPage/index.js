@@ -3,21 +3,27 @@ import logo from "../../assets/logo.png";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Oval } from "react-loader-spinner";
 
 export default function LoginPage() {
     const [userData, setUserData] = useState({ email: "", password: "" })
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     console.log(userData)
 
     function Login(e) {
         e.preventDefault();
+        setLoading(true);
         const promise = axios.post('https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/auth/login', userData);
         promise.then((response) => {
             const dados = response.data;
             console.log(dados);
             navigate("/today");
         })
-        promise.catch(err => console.log(err.response));
+        promise.catch(() => {
+            alert("Algo deu errado! Revise os dados.")
+            setLoading(false);
+        });
     }
 
     return (
@@ -25,9 +31,9 @@ export default function LoginPage() {
             <BodyCss>
                 <img src={logo} alt="logo" />
                 <Form onSubmit={Login}>
-                    <input placeholder="   email" type='text' onChange={(e) => setUserData({ ...userData, email: e.target.value })} value={userData.email} required></input>
-                    <input placeholder="   senha" type='password' onChange={(e) => setUserData({ ...userData, password: e.target.value })} value={userData.password} required></input>
-                    <button type="submit">Entrar</button>
+                    <input placeholder="   email" disabled={loading} type='text' onChange={(e) => setUserData({ ...userData, email: e.target.value })} value={userData.email} required></input>
+                    <input placeholder="   senha" disabled={loading} type='password' onChange={(e) => setUserData({ ...userData, password: e.target.value })} value={userData.password} required></input>
+                    <button type="submit">{loading ?  <Oval color="#FFFFFF" height={30} width={30} /> : `Entrar`}</button>
                 </Form>
                 <p onClick={() => navigate("/register")}>Não tem uma conta? Cadastre-se!</p>
             </BodyCss>
@@ -73,7 +79,7 @@ const BodyCss = styled.div`
         font-size: 20.976px;
         line-height: 26px;
         text-align: center;
-        margin-top: 70px;
+        margin-top: 40px;
         color: #FFFFFF;
     }
 
