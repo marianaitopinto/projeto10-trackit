@@ -10,10 +10,8 @@ export default function LoginPage() {
     const [userData, setUserData] = useState({ email: "", password: "" })
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const { photo, setPhoto, token, setToken } = useContext(UserContext);
+    const { setPhoto, setToken } = useContext(UserContext);
     console.log(userData)
-    console.log(token);
-    console.log(photo);
     console.log(loading);
 
     function Login(e) {
